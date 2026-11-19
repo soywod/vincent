@@ -1,0 +1,37 @@
+---
+import { fullName, site } from '../content'
+import './Hero.css'
+
+const { portrait } = site
+const [lead, strong, rest] = site.tagline
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__identity">
+    {
+      portrait ? (
+        <img
+          class="hero__portrait"
+          src={portrait.src}
+          width={portrait.width}
+          height={portrait.height}
+          alt={`Portrait de ${fullName}`}
+          fetchpriority="high"
+        />
+      ) : (
+        <div
+          class="hero__portrait hero__portrait--empty"
+          role="img"
+          aria-label={`Portrait de ${fullName}, photo à venir`}
+        >
+          <span class="mono">[Portrait · photo à venir]</span>
+        </div>
+      )
+    }
+    <h1 class="hero__title" id="hero-title">
+      <span class="hero__name display">{site.firstName}<br />{site.lastName}</span>
+      <span class="hero__job serif">{site.job}</span>
+    </h1>
+  </div>
+  <p class="hero__tagline serif">{lead}<strong class="display">{strong}</strong>{rest}</p>
+</section>

@@ -1,0 +1,52 @@
+# Builds the site and publishes it on GitHub Pages at every push to
+# master. Full videos are not in the repository: the pages link to the
+# Cloudflare R2 bucket that serves them (PUBLIC_MEDIA_URL).
+
+name: Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push cancels a pending one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  # Served under /vincent/ until the site gets its own domain.
+  SITE_URL: https://soywod.github.io/vincent
+  PUBLIC_MEDIA_URL: https://pub-b1ed6043d5a34de0bbef2b92f38ad49a.r2.dev
+  ASTRO_TELEMETRY_DISABLED: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

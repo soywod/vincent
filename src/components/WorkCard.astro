@@ -1,0 +1,60 @@
+---
+import type { Work } from '../works'
+
+interface Props {
+  work: Work
+  /** Position in the grid, used to stagger the reveal. */
+  index?: number
+  /** Revealed on scroll, like the grid (the carousel reveals as a whole). */
+  reveal?: boolean
+}
+
+const { work, index = 0, reveal = true } = Astro.props
+---
+
+{
+  /*
+   * Thumbnail of one video. The poster is a plain image; the muted
+   * preview has no source until src/scripts/previews.ts activates the
+   * card, so nothing is downloaded before an interaction. The link
+   * leads to the full video, which src/scripts/player.ts opens in the
+   * dialog instead.
+   */
+}
+<a
+  class:list={['work', { 'work--portrait': work.portrait, reveal }]}
+  href={work.full}
+  style={reveal ? `--reveal-delay: ${(index % 3) * 90}ms` : undefined}
+  data-title={work.title}
+  data-ratio={work.width / work.height}
+  data-poster={work.posterJpg}
+>
+  <div class="work__frame">
+    <picture>
+      <source srcset={work.posterAvif} type="image/avif" />
+      <img
+        class="work__poster"
+        src={work.posterJpg}
+        alt=""
+        width={work.width}
+        height={work.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+    <video
+      class="work__video"
+      data-src={work.preview}
+      muted
+      loop
+      playsinline
+      preload="none"
+      tabindex="-1"
+      aria-hidden="true"></video>
+    <span class="work__badge mono" aria-hidden="true">
+      <span class="rec"></span>Aperçu
+    </span>
+    <span class="work__progress" aria-hidden="true"><span></span></span>
+  </div>
+  <h4 class="work__title">{work.title}</h4>
+</a>

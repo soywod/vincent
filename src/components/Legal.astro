@@ -1,0 +1,53 @@
+---
+import { fullName, homePath, site } from '../content'
+import './Legal.css'
+
+const email = site.contact.find((link) => link.href.startsWith('mailto:'))
+const phone = site.contact.find((link) => link.href.startsWith('tel:'))
+---
+
+{/* Legal notice required of every French professional website. */}
+<article class="legal" aria-labelledby="legal-title">
+  <a class="legal__back mono" href={homePath}>← Accueil</a>
+  <h1 class="legal__title display" id="legal-title">
+    Mentions <span class="serif">légales</span>
+  </h1>
+
+  <section>
+    <h2>Éditeur du site</h2>
+    <p>
+      {fullName}, entrepreneur individuel (EI)
+      <br />
+      SIRET : {site.legal.siret}
+      <br />
+      Adresse : {site.legal.address}
+      {email && <><br />Email : {email.value}</>}
+      {phone && <><br />Téléphone : {phone.value}</>}
+    </p>
+    <p>Directeur de la publication : {fullName}.</p>
+  </section>
+
+  <section>
+    <h2>Hébergement</h2>
+    <p>{site.legal.host}</p>
+  </section>
+
+  <section>
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      Les textes, le graphisme et les vidéos présentés sur ce site sont protégés
+      par le droit d'auteur. Toute reproduction ou diffusion sans accord écrit
+      préalable est interdite.
+    </p>
+  </section>
+
+  <section>
+    <h2>Données personnelles</h2>
+    <p>
+      Ce site ne dépose aucun cookie et n'utilise aucun outil de mesure
+      d'audience. Les polices, les images et les vidéos sont servies depuis le
+      site lui-même : aucune donnée n'est transmise à un tiers pendant la
+      visite.
+    </p>
+  </section>
+</article>

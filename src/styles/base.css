@@ -1,0 +1,159 @@
+:root {
+  --bg: #0c0c0d;
+  --surface: #141416;
+  --line: #1f1f22;
+  --line-strong: #26262a;
+  --text: #edebe6;
+  --text-soft: #c9c7c1;
+  --muted: #9c9a94;
+  --faint: #8a8882;
+  --accent: #ff5a26;
+
+  --font-sans: 'Archivo Variable', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --page: 1360px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* The page behind the video dialog does not scroll. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--text);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Type roles: heavy condensed capitals mixed with a fine italic. */
+
+.display {
+  font-family: var(--font-sans);
+  font-stretch: 62%;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.serif {
+  font-family: var(--font-serif);
+  font-stretch: 100%;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Blinking recording dot. */
+
+.rec {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+/*
+ * Scroll reveal. Elements start hidden only when scripting works (the
+ * `js` class comes from src/layouts/Base.astro) and get `data-revealed`
+ * from src/scripts/reveal.ts once they enter the viewport.
+ */
+
+.js .reveal {
+  opacity: 0;
+  translate: 0 28px;
+  transition:
+    opacity 0.9s var(--ease) var(--reveal-delay, 0ms),
+    translate 0.9s var(--ease) var(--reveal-delay, 0ms);
+}
+
+.js .reveal[data-revealed] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec {
+    animation: none;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}

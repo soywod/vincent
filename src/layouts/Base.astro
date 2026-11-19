@@ -1,0 +1,76 @@
+---
+import '@fontsource-variable/archivo/wdth.css'
+import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource-variable/jetbrains-mono/index.css'
+import '../styles/base.css'
+import '../styles/page.css'
+
+// Fonts of the first screen, preloaded so text does not reflow.
+import archivo from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url'
+import instrumentSerif from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url'
+
+import Footer from '../components/Footer.astro'
+import { homePath } from '../content'
+
+interface Props {
+  title: string
+  description: string
+  /** True on the home page; other pages link back to it. */
+  home?: boolean
+}
+
+const { title, description, home = false } = Astro.props
+// The pathname already starts with the base (SITE_URL's path).
+const canonical = Astro.site && new URL(Astro.url.pathname, Astro.site).href
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c0c0d" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href={`${homePath}favicon.svg`} type="image/svg+xml" />
+    <link rel="preload" href={archivo} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={instrumentSerif} as="font" type="font/woff2" crossorigin />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <slot name="head" />
+    {
+      /*
+       * Scroll reveals hide content until it enters the viewport, so
+       * they only apply once scripting is known to work: this adds the
+       * `js` class they depend on. If src/scripts/reveal.ts never starts
+       * (it sets `data-ready`), the class is dropped and everything
+       * shows.
+       */
+    }
+    <script is:inline>
+      ;(function (root) {
+        root.classList.add('js')
+        setTimeout(function () {
+          if (!root.hasAttribute('data-ready')) root.classList.remove('js')
+        }, 4000)
+      })(document.documentElement)
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="page__grid" aria-hidden="true"></div>
+      <main class="page__main" id="top">
+        <slot />
+      </main>
+      <Footer home={home} />
+    </div>
+    <script>
+      import '../scripts/reveal'
+    </script>
+  </body>
+</html>

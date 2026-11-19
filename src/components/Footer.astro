@@ -1,0 +1,21 @@
+---
+import { fullName, homePath, legalPath, site } from '../content'
+import './Footer.css'
+
+interface Props {
+  /** False on the secondary pages, which link back to the home page. */
+  home: boolean
+}
+
+const { home } = Astro.props
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <p>© 2026 {fullName} · {site.job} · SIRET {site.legal.siret}</p>
+    <nav class="footer__links" aria-label="Pied de page">
+      {home ? <a href={legalPath}>Mentions légales</a> : <a href={homePath}>Accueil</a>}
+      <a href="#top">Haut de page ↑</a>
+    </nav>
+  </div>
+</footer>

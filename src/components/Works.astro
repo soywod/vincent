@@ -1,0 +1,101 @@
+---
+import { landscapes, reels, works } from '../works'
+import WorkCard from './WorkCard.astro'
+import './Works.css'
+import './VideoDialog.css'
+---
+
+{
+  works.length > 0 && (
+    <section class="works" id="creations" aria-labelledby="works-title">
+      <div class="works__head reveal">
+        <h2 class="works__title display" id="works-title">
+          Mes <span class="serif">créations</span>
+        </h2>
+        <p class="works__hint works__hint--hover mono">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="6" y="3" width="12" height="18" rx="6" />
+            <path d="M12 7v4" />
+          </svg>
+          Survolez pour lancer l'aperçu
+        </p>
+        <p class="works__hint works__hint--touch mono">
+          L'aperçu se lance au centre de l'écran
+        </p>
+      </div>
+
+      {
+        reels.length > 0 && (
+          <section class="works__group" aria-labelledby="reels-title">
+            <h3 class="works__subtitle reveal" id="reels-title">
+              Format réel <span class="mono">Portrait · 9:16</span>
+            </h3>
+            {/* Scrolls by itself once src/scripts/carousel.ts runs. */}
+            <div class="reels reveal">
+              <div class="reels__track">
+                {reels.map((work) => <WorkCard work={work} reveal={false} />)}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      {
+        landscapes.length > 0 && (
+          <section class="works__group" aria-labelledby="landscapes-title">
+            <h3 class="works__subtitle reveal" id="landscapes-title">
+              Format réseau <span class="mono">Paysage · 16:9</span>
+            </h3>
+            <div class="works__grid">
+              {landscapes.map((work, index) => (
+                <WorkCard work={work} index={index} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <dialog class="player" aria-labelledby="player-title">
+        <div class="player__inner">
+          <div class="player__bar">
+            <h2 class="player__title" id="player-title"></h2>
+            <form method="dialog">
+              <button class="player__close" aria-label="Fermer la vidéo">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <path d="M6 6l12 12M18 6 6 18" />
+                </svg>
+              </button>
+            </form>
+          </div>
+          <video class="player__video" controls playsinline></video>
+        </div>
+      </dialog>
+    </section>
+  )
+}
+
+<script>
+  // The carousel clones its cards first, so the other scripts see them.
+  import '../scripts/carousel'
+  import '../scripts/previews'
+  import '../scripts/player'
+</script>

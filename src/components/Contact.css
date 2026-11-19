@@ -1,0 +1,150 @@
+.contact {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding: clamp(96px, 11vw, 160px) var(--gutter) clamp(72px, 8vw, 112px);
+}
+
+.contact__title {
+  font-size: clamp(3.5rem, 10vw, 9.25rem);
+  line-height: 0.9;
+
+  & .serif {
+    color: var(--accent);
+  }
+}
+
+.contact__details {
+  margin-top: 48px;
+
+  /* Unfolds with a fade where ::details-content is supported, and
+     simply appears elsewhere. */
+  &::details-content {
+    opacity: 0;
+    translate: 0 -12px;
+    transition:
+      opacity 0.45s var(--ease),
+      translate 0.45s var(--ease),
+      content-visibility 0.45s allow-discrete;
+  }
+
+  &[open]::details-content {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.contact__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 0 32px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 600;
+  list-style: none;
+  user-select: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  & svg {
+    transition: rotate 0.3s;
+  }
+}
+
+.contact__details[open] .contact__button svg {
+  rotate: 180deg;
+}
+
+.contact__list {
+  max-width: 820px;
+  margin-top: 24px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.contact__link {
+  display: grid;
+  grid-template-columns: minmax(96px, 180px) minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line-strong);
+  text-decoration: none;
+}
+
+.contact__label {
+  color: var(--faint);
+  font-size: 0.75rem;
+}
+
+.contact__value {
+  overflow-wrap: anywhere;
+  font-size: clamp(1.375rem, 2.6vw, 2.125rem);
+  font-stretch: 75%;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+@media (max-width: 640px) {
+  .contact {
+    padding: 88px var(--gutter) 56px;
+  }
+
+  .contact__title {
+    font-size: 19.5vw;
+
+    & .serif {
+      display: block;
+    }
+  }
+
+  .contact__details {
+    margin-top: 28px;
+  }
+
+  .contact__button {
+    display: flex;
+    justify-content: center;
+    min-height: 56px;
+    font-size: 1.125rem;
+  }
+
+  .contact__list {
+    margin-top: 16px;
+  }
+
+  /* Label above the value, arrow kept on the right. */
+  .contact__link {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2px 12px;
+    padding: 14px 0;
+  }
+
+  .contact__label {
+    grid-column: 1;
+    font-size: 0.625rem;
+  }
+
+  .contact__value {
+    grid-column: 1;
+    font-size: 1.375rem;
+    line-height: 1.2;
+  }
+
+  .contact__link svg {
+    grid-area: 1 / 2 / span 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__details::details-content,
+  .contact__button svg {
+    transition: none;
+  }
+}

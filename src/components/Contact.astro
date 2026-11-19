@@ -1,0 +1,67 @@
+---
+import { site } from '../content'
+import './Contact.css'
+---
+
+{
+  /*
+   * Closing call to action. The contact details unfold from a native
+   * <details>: they work without scripting and stay in the markup for
+   * crawlers.
+   */
+}
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <h2 class="contact__title display reveal" id="contact-title">
+    Un projet <span class="serif">en tête&nbsp;?</span>
+  </h2>
+
+  <details class="contact__details reveal">
+    <summary class="contact__button">
+      Me contacter
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </summary>
+
+    <ul class="contact__list">
+      {
+        site.contact.map((link) => (
+          <li>
+            <a
+              class="contact__link"
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+            >
+              <span class="contact__label mono">{link.label}</span>
+              <span class="contact__value">{link.value}</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+</section>

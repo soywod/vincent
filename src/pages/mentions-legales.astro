@@ -1,0 +1,12 @@
+---
+import Legal from '../components/Legal.astro'
+import { fullName } from '../content'
+import Base from '../layouts/Base.astro'
+---
+
+<Base
+  title={`Mentions légales · ${fullName}`}
+  description={`Mentions légales du site de ${fullName}, monteur vidéo et motion designer.`}
+>
+  <Legal />
+</Base>

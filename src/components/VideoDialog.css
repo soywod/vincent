@@ -1,0 +1,86 @@
+.player {
+  /* Room taken by the title bar and the margins around the dialog. */
+  --chrome: 124px;
+
+  /* As wide as the screen allows, without the video (whose ratio comes
+     from src/scripts/player.ts) growing taller than the viewport. */
+  width: min(
+    100vw - 32px,
+    1280px,
+    (100dvh - var(--chrome)) * var(--ratio, 16 / 9)
+  );
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  opacity: 0;
+  scale: 0.98;
+  transition:
+    opacity 0.25s,
+    scale 0.25s var(--ease),
+    overlay 0.25s allow-discrete,
+    display 0.25s allow-discrete;
+
+  &[open] {
+    opacity: 1;
+    scale: 1;
+
+    @starting-style {
+      opacity: 0;
+      scale: 0.98;
+    }
+  }
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.82);
+  }
+}
+
+.player__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 8px 8px 20px;
+}
+
+.player__title {
+  font-size: 1.25rem;
+  font-stretch: 75%;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.player__close {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  place-items: center;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.player__video {
+  width: 100%;
+  aspect-ratio: var(--ratio, 16 / 9);
+  background: #000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player {
+    transition: none;
+  }
+}

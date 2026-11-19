@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.direnv/
+.env
+result
+
+# Full-length videos stay out of Git: they are rebuilt from the source
+# files by scripts/encode-videos.sh. Posters and previews are small
+# enough to be tracked.
+public/media/*/full.mp4

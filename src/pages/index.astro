@@ -1,0 +1,22 @@
+---
+import Contact from '../components/Contact.astro'
+import Hero from '../components/Hero.astro'
+import Works from '../components/Works.astro'
+import { description, site } from '../content'
+import Base from '../layouts/Base.astro'
+import { origin, personJsonLd } from '../seo'
+
+const jsonLd = personJsonLd(origin(Astro.site))
+---
+
+<Base title={site.title} description={description} home>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={jsonLd}
+  />
+  <Hero />
+  <Works />
+  <Contact />
+</Base>

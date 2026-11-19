@@ -1,0 +1,111 @@
+.hero {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding: clamp(32px, 4.5vw, 64px) var(--gutter) 0;
+}
+
+/* Portrait and name centred together on the page. */
+.hero__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 56px);
+}
+
+.hero__portrait {
+  flex: none;
+  width: clamp(160px, 18vw, 260px);
+  height: auto;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  object-fit: cover;
+  animation: rise 0.9s var(--ease) both;
+}
+
+.hero__portrait--empty {
+  position: relative;
+  background: radial-gradient(
+    ellipse at 50% 35%,
+    #2a2622 0%,
+    var(--surface) 70%
+  );
+
+  & span {
+    position: absolute;
+    inset: auto 14px 12px;
+    color: var(--faint);
+    font-size: 0.6875rem;
+    line-height: 1.4;
+  }
+}
+
+.hero__title {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font: inherit;
+}
+
+.hero__name {
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  letter-spacing: -0.01em;
+  line-height: 0.84;
+  animation: rise 0.9s var(--ease) 0.12s both;
+}
+
+.hero__job {
+  color: var(--text-soft);
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  line-height: 1.1;
+  animation: rise 0.9s var(--ease) 0.24s both;
+}
+
+.hero__tagline {
+  max-width: 1120px;
+  margin-inline: auto;
+  text-align: center;
+  margin-top: clamp(32px, 3.6vw, 48px);
+  font-size: clamp(1.625rem, 3.2vw, 2.75rem);
+  line-height: 1.1;
+  text-wrap: balance;
+  animation: rise 0.9s var(--ease) 0.38s both;
+
+  & strong {
+    color: var(--accent);
+    font-size: 0.86em;
+    font-style: normal;
+    letter-spacing: 0.01em;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__identity {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .hero__portrait {
+    width: 148px;
+  }
+
+  .hero__title {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero__name {
+    font-size: 17vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__portrait,
+  .hero__name,
+  .hero__job,
+  .hero__tagline {
+    animation: none;
+  }
+}
